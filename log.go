@@ -18,9 +18,13 @@ type Logger struct {
 	lastFlush time.Time
 }
 
-var defaultLogger = &Logger{lastFlush: time.Now()}
+var defaultLogger = &Logger{
+	lastFlush: time.Now(),
+	file:      os.Stdout,
+	dst:       bufio.NewWriter(os.Stdout),
+}
 
-func InitLog(path string) {
+func SetLogPath(path string) {
 	var err error
 	defaultLogger.file, err = os.OpenFile(path, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0777)
 	if err != nil {
